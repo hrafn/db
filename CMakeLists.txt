@@ -26,6 +26,7 @@ ccp_add_library(db SHARED
         StringStore.cpp
         SqlCommand.cpp
         TaskletBlockingIO.cpp
+        Telemetry.cpp
         TmpRowset.cpp
         Utils.cpp
 )
@@ -46,6 +47,7 @@ target_sources(db PRIVATE
         StringStore.h
         SqlCommand.h
         TaskletBlockingIO.h
+        Telemetry.h
         TmpRowset.h
         Utils.h
         version.h

@@ -48,6 +48,8 @@ set(db_sources
     ../SqlCommand.h
     ../TaskletBlockingIO.cpp
     ../TaskletBlockingIO.h
+    ../Telemetry.cpp
+    ../Telemetry.h
     ../TmpRowset.cpp
     ../TmpRowset.h
     ../Utils.cpp

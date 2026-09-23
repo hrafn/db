@@ -1,5 +1,6 @@
 // Copyright © 2001 CCP ehf.
 // Defines the entry point for the DLL application.
+#include "Telemetry.h"
 
 #include "StdAfx.h"
 #include "Utils.h"
@@ -77,5 +78,7 @@ CCP_CONCATENATE( PyInit__db, CCP_BUILD_FLAVOR )()
 	// Init Blue related
 	PyObject* module = BlueClientStart( gInstance );
 	CoInitialize(0);
+	// Initialize Telemetry Category for "db"
+	DbTelemetryCategory();
 	return module;
 }
