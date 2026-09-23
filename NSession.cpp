@@ -1,6 +1,7 @@
 // Copyright © 2014 CCP ehf.
 #include "StdAfx.h"
 #include "NSession.h"
+#include "Telemetry.h"
 #include <Scheduler.h>
 
 #include "utils.h"
@@ -40,6 +41,7 @@ PyObject *NSession::Request::Raise()
 
 bool NSession::Request::GetSession(int timerDetail)
 {
+	DB_TELEMETRY_ZONE( "DB:Request::GetSession" );
 	AUTOTASKLETC("DB::Request::GetSession", timerDetail>=2);
 	_ASSERT(!mSession);
 	if (!mSessionKeeper.GetSession(mSession))
@@ -211,6 +213,7 @@ PyObject *NSession::GetSchemaB(bool refresh)
 //--------------------------------------------------------------------
 PyObject *NSession::Execute(PyObject *args)
 {
+	DB_TELEMETRY_ZONE( "DB:NSession::Execute" );
 	AUTOTASKLET0("DB::NSession::Execute");
 	// threaded or direct mode, based on blocking status 
 
@@ -252,6 +255,7 @@ PyObject *NSession::Execute(PyObject *args)
 
 bool NSession::Prepare(Request &req, PyObject *args)
 {
+	DB_TELEMETRY_ZONE( "DB::NSession::Prepare" );
 	AUTOTASKLET1("DB::NSession::Prepare");
 	if (mBlobSizeLimit>=0)
 		req.mCommand.SetBlobSizeLimit(mBlobSizeLimit);
@@ -268,6 +272,7 @@ bool NSession::Prepare(Request &req, PyObject *args)
 
 PyObject *NSession::ExecuteDirectly(Request &req)
 {
+	DB_TELEMETRY_ZONE( "DB::NSession::ExecuteDirectly" );
 	AUTOTASKLET1("DB::NSession::ExecuteDirectly");
 	req.Execute();
 	if (req.mException.get())
@@ -288,6 +293,7 @@ PyObject *NSession::ExecuteDirectly(Request &req)
 PyObject *NSession::ExecuteBlock(Request &req)
 {
 	{
+		DB_TELEMETRY_ZONE( "DB:NSession::WaitForData" );
 		AUTOTASKLET1("DB::NSession::WaitForData");
 		try {
 			if(!req.ExecuteAndWait())
@@ -310,6 +316,7 @@ PyObject *NSession::ExecuteBlock(Request &req)
 
 	PyObject *r;
 	{
+		DB_TELEMETRY_ZONE( "DB::NSession::ToPython" );
 		AUTOTASKLET1("DB::NSession::ToPython");
 		ToPythonCtxt ctxt(mBlue, mBeNice, mBeNiceEvery, mGetMem);
 		r = req.mResult.ToPython(ctxt);
@@ -329,6 +336,7 @@ void NSession::Request::ThreadFunc()
 
 void NSession::Request::Execute()
 {
+	DB_TELEMETRY_ZONE( "NSession::Request::Execute" );
 	__int64 startTime, endTime;
 	ULARGE_INTEGER dummy, kernelTime1, userTime1, kernelTime2, userTime2;
 	DBTRACE("thread starts on request %p\n", this);

@@ -1,5 +1,6 @@
 // Copyright © 2023 CCP ehf.
 #include "RowDescriptor.h"
+#include "Telemetry.h"
 
 #include "utils.h"
 
@@ -104,6 +105,7 @@ DelayedException* RowDescriptor::Init( ACCESSOR& a )
 
 PyObject* RowDescriptor::ToPython( PyObject* blueModule )
 {
+	DB_TELEMETRY_ZONE( "DB::NSession::ToPython::RowSet" );
 	TTIMER2( "DB::NSession::ToPython::RowDescriptor" );
 	BluePy raw( PyCapsule_New( &mColumnList, "DBRowDescriptor", 0 ) );
 	if( !raw )

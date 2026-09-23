@@ -7,12 +7,14 @@
 using Utilities::DbExc_RuntimeError;
 
 #include "NSession.h"
+#include "Telemetry.h"
 
 //--------------------------------------------------------------------
 // SQLCommand::Prepare:  Make the command ready
 //--------------------------------------------------------------------
 bool SQLCommand::Prepare(size_t &paramLen, CSession *session, PyObject *schema, PyObject* args)
 {
+	DB_TELEMETRY_ZONE( "DB::SQLCommand::Prepare" );
 	AUTOTASKLETC("DB::SQLCommand::Prepare", mNSession->mTimerDetail >= 2);
 	HRESULT hr;
 	char* procname;

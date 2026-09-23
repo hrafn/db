@@ -24,10 +24,11 @@
 	*************************************************************************
 */
 
-#include "stdafx.h"
-#include "SessionPool.h"
 #include <Scheduler.h>
 
+#include "stdafx.h"
+#include "SessionPool.h"
+#include "Telemetry.h"
 #include "Utils.h"
 
 
@@ -146,7 +147,8 @@ bool SessionPool::GetSession(ATL::CSession* &s)
 }
 
 bool SessionPool::GetSession_int(ATL::CSession* &s)
-{	
+{
+	DB_TELEMETRY_ZONE( "DB::NSession::SessionPool::GetSession");
 	AUTOTASKLET2("DB::NSession::SessionPool::GetSession");
 	//depending on sessions in use, we must block on a tasklet
 	//We use a non-strict queue so that we don't cause lock-convoying

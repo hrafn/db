@@ -1,5 +1,6 @@
 // Copyright © 2014 CCP ehf.
 #include "StdAfx.h"
+#include "Telemetry.h"
 #include "TmpRowset.h"
 #include "NSession.h"
 
@@ -58,6 +59,7 @@ TmpRowset::~TmpRowset()
 //returns a tuple: (rowdscriptor, [row, row, ...])
 PyObject *TmpRowset::ToPython(ToPythonCtxt &ctxt)
 {
+	DB_TELEMETRY_ZONE( "DB::NSession::ToPython::RowSet" );
 	TTIMER1("DB::NSession::ToPython::RowSet");
 	BluePyTuple rs(2);
 	if (!rs) return 0;
